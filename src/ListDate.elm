@@ -58,6 +58,15 @@ listToDate list =
             ensureSize 7 list
     in
     case l of
+        [ 0, 0, 0, 0, 0, 0, 0 ] ->
+            Nothing
+
+        [ _, 0, 0, 0, 0, 0, 0 ] ->
+            Nothing
+
+        [ _, _, 0, 0, 0, 0, 0 ] ->
+            Nothing
+
         [ year, month, day, hours, minutes, seconds, millis ] ->
             Just <|
                 DE.fromParts
