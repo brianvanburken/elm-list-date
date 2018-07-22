@@ -1,10 +1,11 @@
 module Tests exposing (dateToListTest, decoderTest, encoderTest, listToDateTest)
 
--- import Fuzz exposing (Fuzzer, int, list, string)
-
 import Date.Extra as DE
 import Expect exposing (Expectation)
+import Json.Decode as JD
+import Json.Encode as JE
 import ListDate
+import Result.Extra as RE
 import Test exposing (..)
 
 
@@ -104,19 +105,122 @@ listToDateTest =
                 Expect.equal
                     (Just date)
                     (ListDate.listToDate [ 2018, 5, 31, 15, 16, 20, 1234 ])
+
+        -- TODO: fuzzy test lists
         ]
 
 
 dateToListTest : Test
 dateToListTest =
-    todo "Implement dateToListTest"
+    describe "Convert a Date to a List Int"
+        [ test "with a valid date" <|
+            \_ ->
+                let
+                    date =
+                        DE.fromParts
+                            2018
+                            (DE.numberToMonth 5)
+                            31
+                            15
+                            16
+                            20
+                            987
+
+                    expected =
+                        [ 2018, 5, 31, 15, 16, 20, 987 ]
+                in
+                Expect.equal
+                    expected
+                    (ListDate.dateToList date)
+
+        -- TODO: fuzzy test dates
+        ]
 
 
 encoderTest : Test
 encoderTest =
-    todo "Implement encoderTest"
+    describe "Encodes a Date as a List Int"
+        [ test "with a date" <|
+            \_ ->
+                let
+                    date =
+                        DE.fromParts
+                            2018
+                            (DE.numberToMonth 5)
+                            31
+                            15
+                            16
+                            20
+                            987
+
+                    expected =
+                        JE.list
+                            [ JE.int 2018
+                            , JE.int 5
+                            , JE.int 31
+                            , JE.int 15
+                            , JE.int 16
+                            , JE.int 20
+                            , JE.int 987
+                            ]
+                in
+                Expect.equal
+                    expected
+                    (ListDate.encoder date)
+        ]
 
 
 decoderTest : Test
 decoderTest =
-    todo "Implemdet decoderTest"
+    describe "Decodes a List Int to a Date"
+        [ test "with a valid date" <|
+            \_ ->
+                let
+                    date =
+                        DE.fromParts
+                            2018
+                            (DE.numberToMonth 5)
+                            31
+                            15
+                            16
+                            20
+                            987
+
+                    json =
+                        [ 2018, 5, 31, 15, 16, 20, 987 ]
+                            |> List.map JE.int
+                            |> JE.list
+                in
+                Expect.equal
+                    (Ok date)
+                    (JD.decodeValue ListDate.decoder json)
+
+        -- TODO: fuzzy test dates
+        , test "with an empty list" <|
+            \_ ->
+                let
+                    json =
+                        JE.list []
+                in
+                Expect.true
+                    "should be an Err"
+                    (RE.isErr <| JD.decodeValue ListDate.decoder json)
+        , test "with an only year" <|
+            \_ ->
+                let
+                    json =
+                        JE.list [ JE.int 2018 ]
+                in
+                Expect.true
+                    "should be an Err"
+                    (RE.isErr <| JD.decodeValue ListDate.decoder json)
+        , test "with an only year and month" <|
+            \_ ->
+                let
+                    json =
+                        JE.list [ JE.int 2018, JE.int 2 ]
+                in
+                Expect.true
+                    "should be an Err"
+                    (RE.isErr <| JD.decodeValue ListDate.decoder json)
+        ]
