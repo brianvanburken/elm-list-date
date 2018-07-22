@@ -105,8 +105,6 @@ listToDateTest =
                 Expect.equal
                     (Just date)
                     (ListDate.listToDate [ 2018, 5, 31, 15, 16, 20, 1234 ])
-
-        -- TODO: fuzzy test lists
         ]
 
 
@@ -132,8 +130,6 @@ dateToListTest =
                 Expect.equal
                     expected
                     (ListDate.dateToList date)
-
-        -- TODO: fuzzy test dates
         ]
 
 
@@ -194,8 +190,6 @@ decoderTest =
                 Expect.equal
                     (Ok date)
                     (JD.decodeValue ListDate.decoder json)
-
-        -- TODO: fuzzy test dates
         , test "with an empty list" <|
             \_ ->
                 let
