@@ -50,7 +50,6 @@ rest with zero's.
     listToDate [ 2018, 5, 31 ] -- Just <Thu May 31 00:00:00 GMT+0000>
     listToDate [ 2018, 5, 31, 15, 16 ] -- Just <Thu May 31 15:16:00 CMT+0000>
     listToDate [ 2018, 5, 31, 15, 16, 20, 1000 ] -- Just <Thu May 31 15:16:20 CMT+0000>
-    listToDate [ 2018, 2, 31, 15, 16, 20, 1000 ] -- Nothing
 
 -}
 listToDate : List Int -> Maybe Date.Date
