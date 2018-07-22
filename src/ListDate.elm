@@ -15,7 +15,7 @@ package helps with the conversion from and to.
 
 -}
 
-import Date
+import Date exposing (Date)
 import Date.Extra as DE exposing (Interval(..))
 import Json.Decode as JD exposing (Decoder)
 import Json.Encode as JE
@@ -23,7 +23,7 @@ import Json.Encode as JE
 
 {-| Provides a decoder that will convert a List of Int to a Date.
 -}
-decoder : Decoder Date.Date
+decoder : Decoder Date
 decoder =
     JD.list JD.int
         |> JD.andThen
@@ -35,7 +35,7 @@ decoder =
 
 {-| Provides an encoder that will convert a Date to a List of Int's.
 -}
-encoder : Date.Date -> JE.Value
+encoder : Date -> JE.Value
 encoder =
     dateToList
         >> List.map JE.int
@@ -52,7 +52,7 @@ rest with zero's.
     listToDate [ 2018, 5, 31, 15, 16, 20, 1000 ] -- Just <Thu May 31 15:16:20 CMT+0000>
 
 -}
-listToDate : List Int -> Maybe Date.Date
+listToDate : List Int -> Maybe Date
 listToDate list =
     let
         l =
@@ -96,7 +96,7 @@ the milliseconds.
     dateToList date -- [ 2018, 5, 31, 15, 16, 20, 1000 ]
 
 -}
-dateToList : Date.Date -> List Int
+dateToList : Date -> List Int
 dateToList date =
     -- Date
     [ Date.year date
