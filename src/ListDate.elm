@@ -44,9 +44,9 @@ encoder =
 representing year till milisceonds. If this is not the case it will fill in the
 rest with zero's.
 
-    listToDate [] -- Err "Invalid data given for date. Need at least year, month, and day."
-    listToDate [ 2018 ] -- Err "Invalid data given for date. Need at least year, month, and day."
-    listToDate [ 2018, 5 ] -- Err "Invalid data given for date. Need at least year, month, and day."
+    listToDate [] -- Err ..
+    listToDate [ 2018 ] -- Err ..
+    listToDate [ 2018, 5 ] -- Err ..
     listToDate [ 2018, 5, 31 ] -- Ok <Thu May 31 00:00:00 GMT+0000>
     listToDate [ 2018, 5, 31, 15 ] -- Ok <Thu May 31 15:16:00 CMT+0000>
     listToDate [ 2018, 5, 31, 15, 16 ] -- Ok <Thu May 31 15:16:00 CMT+0000>
@@ -64,10 +64,10 @@ listToDate list =
             Err "Invalid list of data given for date. Need at least year, month, and day."
 
         [ _, 0, 0, 0, 0, 0, 0 ] ->
-            Err "Invalid list of data given for date. Need at least year, month, and day."
+            Err "Invalid list of data given for date. I've gotten the year, but still need month and day."
 
         [ _, _, 0, 0, 0, 0, 0 ] ->
-            Err "Invalid list of data given for date. Need at least year, month, and day."
+            Err "Invalid list of data given for date. I've gotten the year and month, but still need the day."
 
         [ year, month, day, hours, minutes, seconds, millis ] ->
             Ok <|
