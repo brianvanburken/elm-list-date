@@ -18,8 +18,8 @@ package helps with the conversion from and to.
 import Date exposing (Date)
 import Date.Extra as DE exposing (Interval(..))
 import Json.Decode as JD exposing (Decoder)
-import Json.Encode as JE
 import Json.Decode.Extra as JDE
+import Json.Encode as JE
 
 
 {-| Provides a decoder that will convert a List of Int to a Date.
@@ -48,6 +48,7 @@ rest with zero's.
     listToDate [ 2018 ] -- Err "Invalid data given for date. Need at least year, month, and day."
     listToDate [ 2018, 5 ] -- Err "Invalid data given for date. Need at least year, month, and day."
     listToDate [ 2018, 5, 31 ] -- Ok <Thu May 31 00:00:00 GMT+0000>
+    listToDate [ 2018, 5, 31, 15 ] -- Ok <Thu May 31 15:16:00 CMT+0000>
     listToDate [ 2018, 5, 31, 15, 16 ] -- Ok <Thu May 31 15:16:00 CMT+0000>
     listToDate [ 2018, 5, 31, 15, 16, 20, 987 ] -- Ok <Thu May 31 15:16:20 CMT+0000>
 
