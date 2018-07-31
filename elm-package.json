@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0",
+    "version": "2.0.0",
     "summary": "Helpers for working with List's of Int's representing a date",
     "repository": "https://github.com/brianvanburken/elm-list-date.git",
     "license": "BSD3",
