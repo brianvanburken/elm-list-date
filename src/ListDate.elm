@@ -19,6 +19,7 @@ import Date exposing (Date)
 import Date.Extra as DE exposing (Interval(..))
 import Json.Decode as JD exposing (Decoder)
 import Json.Encode as JE
+import Json.Decode.Extra as JDE
 
 
 {-| Provides a decoder that will convert a List of Int to a Date.
@@ -27,10 +28,7 @@ decoder : Decoder Date
 decoder =
     JD.list JD.int
         |> JD.andThen
-            (listToDate
-                >> Maybe.map JD.succeed
-                >> Maybe.withDefault (JD.fail "Unable to parse date")
-            )
+            (listToDate >> JDE.fromResult)
 
 
 {-| Provides an encoder that will convert a Date to a List of Int's.
@@ -46,13 +44,15 @@ encoder =
 representing year till milisceonds. If this is not the case it will fill in the
 rest with zero's.
 
-    listToDate [] -- Nothing
-    listToDate [ 2018, 5, 31 ] -- Just <Thu May 31 00:00:00 GMT+0000>
-    listToDate [ 2018, 5, 31, 15, 16 ] -- Just <Thu May 31 15:16:00 CMT+0000>
-    listToDate [ 2018, 5, 31, 15, 16, 20, 1000 ] -- Just <Thu May 31 15:16:20 CMT+0000>
+    listToDate [] -- Err "Invalid data given for date. Need at least year, month, and day."
+    listToDate [ 2018 ] -- Err "Invalid data given for date. Need at least year, month, and day."
+    listToDate [ 2018, 5 ] -- Err "Invalid data given for date. Need at least year, month, and day."
+    listToDate [ 2018, 5, 31 ] -- Ok <Thu May 31 00:00:00 GMT+0000>
+    listToDate [ 2018, 5, 31, 15, 16 ] -- Ok <Thu May 31 15:16:00 CMT+0000>
+    listToDate [ 2018, 5, 31, 15, 16, 20, 987 ] -- Ok <Thu May 31 15:16:20 CMT+0000>
 
 -}
-listToDate : List Int -> Maybe Date
+listToDate : List Int -> Result String Date
 listToDate list =
     let
         l =
@@ -60,16 +60,16 @@ listToDate list =
     in
     case l of
         [ 0, 0, 0, 0, 0, 0, 0 ] ->
-            Nothing
+            Err "Invalid list of data given for date. Need at least year, month, and day."
 
         [ _, 0, 0, 0, 0, 0, 0 ] ->
-            Nothing
+            Err "Invalid list of data given for date. Need at least year, month, and day."
 
         [ _, _, 0, 0, 0, 0, 0 ] ->
-            Nothing
+            Err "Invalid list of data given for date. Need at least year, month, and day."
 
         [ year, month, day, hours, minutes, seconds, millis ] ->
-            Just <|
+            Ok <|
                 DE.fromParts
                     year
                     (DE.numberToMonth month)
@@ -80,7 +80,7 @@ listToDate list =
                     millis
 
         _ ->
-            Nothing
+            Err "Invalid list of data given for date."
 
 
 ensureSize : Int -> List Int -> List Int
