@@ -1,4 +1,7 @@
-module ListDate exposing (dateToList, decoder, encoder, listToDate)
+module ListDate exposing
+    ( dateToList, listToDate
+    , decoder, encoder
+    )
 
 {-| Sometimes an API returns a List of Int's and you have to deal with it. This
 package helps with the conversion from and to.
@@ -15,46 +18,51 @@ package helps with the conversion from and to.
 
 -}
 
-import Date exposing (Date)
-import Date.Extra as DE exposing (Interval(..))
 import Json.Decode as JD exposing (Decoder)
 import Json.Decode.Extra as JDE
 import Json.Encode as JE
+import Time exposing (Month(..), Posix, Zone)
+import Time.Extra as TE
 
 
 {-| Provides a decoder that will convert a List of Int to a Date.
 -}
-decoder : Decoder Date
-decoder =
+decoder : Zone -> Decoder Posix
+decoder zone =
     JD.list JD.int
         |> JD.andThen
-            (listToDate >> JDE.fromResult)
+            (listToDate zone >> JDE.fromResult)
 
 
 {-| Provides an encoder that will convert a Date to a List of Int's.
 -}
-encoder : Date -> JE.Value
-encoder =
-    dateToList
-        >> List.map JE.int
-        >> JE.list
+encoder : Zone -> Posix -> JE.Value
+encoder zone =
+    dateToList zone
+        >> JE.list JE.int
 
 
 {-| Converts a List of Int's to a Maybe Date. It expects a total of 7 integers
 representing year till milisceonds. If this is not the case it will fill in the
 rest with zero's.
 
-    listToDate [] -- Err ..
-    listToDate [ 2018 ] -- Err ..
-    listToDate [ 2018, 5 ] -- Err ..
-    listToDate [ 2018, 5, 31 ] -- Ok <Thu May 31 00:00:00 GMT+0000>
-    listToDate [ 2018, 5, 31, 15 ] -- Ok <Thu May 31 15:16:00 CMT+0000>
-    listToDate [ 2018, 5, 31, 15, 16 ] -- Ok <Thu May 31 15:16:00 CMT+0000>
-    listToDate [ 2018, 5, 31, 15, 16, 20, 987 ] -- Ok <Thu May 31 15:16:20 CMT+0000>
+    listToDate Time.utc [] -- Err ..
+
+    listToDate Time.utc [ 2018 ] -- Err ..
+
+    listToDate Time.utc [ 2018, 5 ] -- Err ..
+
+    listToDate Time.utc [ 2018, 5, 31 ] -- Ok (Posix 1527724800000)
+
+    listToDate Time.utc [ 2018, 5, 31, 15 ] -- Ok (Posix 1527778800000)
+
+    listToDate Time.utc [ 2018, 5, 31, 15, 16 ] -- Ok (Posix 1527779760000)
+
+    listToDate Time.utc [ 2018, 5, 31, 15, 16, 20, 987 ] -- Ok (Posix 1527779780987)
 
 -}
-listToDate : List Int -> Result String Date
-listToDate list =
+listToDate : Zone -> List Int -> Result String Posix
+listToDate zone list =
     let
         l =
             ensureSize 7 list
@@ -71,14 +79,15 @@ listToDate list =
 
         [ year, month, day, hours, minutes, seconds, millis ] ->
             Ok <|
-                DE.fromParts
-                    year
-                    (DE.numberToMonth month)
-                    day
-                    hours
-                    minutes
-                    seconds
-                    millis
+                TE.partsToPosix zone
+                    { year = year
+                    , month = intToMonth month
+                    , day = day
+                    , hour = hours
+                    , minute = minutes
+                    , second = seconds
+                    , millisecond = millis
+                    }
 
         _ ->
             Err "Invalid list of data given for date."
@@ -92,21 +101,103 @@ ensureSize size list =
 {-| Converts a date to a List of Int's. With the head being the year and the last
 the milliseconds.
 
-    dateToList date -- [ 2018, 5, 31,  0,  0,  0, 0 ]
-    dateToList date -- [ 2018, 5, 31, 15, 16,  0, 0 ]
-    dateToList date -- [ 2018, 5, 31, 15, 16, 20, 1000 ]
+    dateToList Time.utc (Posix 1527724800000) -- [ 2018, 5, 31,  0,  0,  0, 0 ]
+
+    dateToList Time.utc (Posix 1527779760000) -- [ 2018, 5, 31, 15, 16,  0, 0 ]
+
+    dateToList Time.utc (Posix 1527779780987) -- [ 2018, 5, 31, 15, 16, 20, 987 ]
 
 -}
-dateToList : Date -> List Int
-dateToList date =
+dateToList : Zone -> Posix -> List Int
+dateToList zone timestamp =
     -- Date
-    [ Date.year date
-    , DE.monthNumber date
-    , Date.day date
+    [ Time.toYear zone timestamp
+    , Time.toMonth zone timestamp |> monthToInt
+    , Time.toDay zone timestamp
 
     -- Time
-    , Date.hour date
-    , Date.minute date
-    , Date.second date
-    , Date.millisecond date
+    , Time.toHour zone timestamp
+    , Time.toMinute zone timestamp
+    , Time.toSecond zone timestamp
+    , Time.toMillis zone timestamp
     ]
+
+
+intToMonth : Int -> Month
+intToMonth month =
+    case month of
+        2 ->
+            Feb
+
+        3 ->
+            Mar
+
+        4 ->
+            Apr
+
+        5 ->
+            May
+
+        6 ->
+            Jun
+
+        7 ->
+            Jul
+
+        8 ->
+            Aug
+
+        9 ->
+            Sep
+
+        10 ->
+            Oct
+
+        11 ->
+            Nov
+
+        12 ->
+            Dec
+
+        _ ->
+            Jan
+
+
+monthToInt : Month -> Int
+monthToInt month =
+    case month of
+        Jan ->
+            1
+
+        Feb ->
+            2
+
+        Mar ->
+            3
+
+        Apr ->
+            4
+
+        May ->
+            5
+
+        Jun ->
+            6
+
+        Jul ->
+            7
+
+        Aug ->
+            8
+
+        Sep ->
+            9
+
+        Oct ->
+            10
+
+        Nov ->
+            11
+
+        Dec ->
+            12
