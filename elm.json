@@ -1,0 +1,22 @@
+{
+    "type": "package",
+    "name": "brianvanburken/elm-list-date",
+    "summary": "Helpers for working with List's of Int's representing a date",
+    "license": "BSD-3-Clause",
+    "version": "2.0.0",
+    "exposed-modules": [
+        "ListDate"
+    ],
+    "elm-version": "0.19.0 <= v < 0.20.0",
+    "dependencies": {
+        "elm/core": "1.0.0 <= v < 2.0.0",
+        "elm/json": "1.1.2 <= v < 2.0.0",
+        "elm/time": "1.0.0 <= v < 2.0.0",
+        "elm-community/json-extra": "4.0.0 <= v < 5.0.0",
+        "justinmimbs/time-extra": "1.1.0 <= v < 2.0.0"
+    },
+    "test-dependencies": {
+        "elm-explorations/test": "1.2.1 <= v < 2.0.0",
+        "elm-community/result-extra": "2.2.1 <= v < 3.0.0"
+    }
+}
