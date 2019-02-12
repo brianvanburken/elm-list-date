@@ -3,7 +3,7 @@
     "name": "brianvanburken/elm-list-date",
     "summary": "Helpers for working with List's of Int's representing a date",
     "license": "BSD-3-Clause",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "exposed-modules": [
         "ListDate"
     ],
