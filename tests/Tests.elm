@@ -14,64 +14,48 @@ listToDateTest =
     describe "Convert a List Int to Date.Date"
         [ test "empty list" <|
             \_ ->
-                Expect.equal
-                    (Err "Invalid list of data given for date. Need at least year, month, and day.")
-                    (ListDate.listToDate utc [])
+                ListDate.listToDate utc []
+                    |> Expect.equal
+                        (Err "Invalid list of data given for date. Need at least year, month, and day.")
         , test "only year given" <|
             \_ ->
-                Expect.equal
-                    (Err "Invalid list of data given for date. I've gotten the year, but still need month and day.")
-                    (ListDate.listToDate utc [ 2018 ])
+                ListDate.listToDate utc [ 2018 ]
+                    |> Expect.equal
+                        (Err "Invalid list of data given for date. I've gotten the year, but still need month and day.")
         , test "only year and month given" <|
             \_ ->
-                Expect.equal
-                    (Err "Invalid list of data given for date. I've gotten the year and month, but still need the day.")
-                    (ListDate.listToDate utc [ 2018, 5 ])
+                ListDate.listToDate utc [ 2018, 5 ]
+                    |> Expect.equal
+                        (Err "Invalid list of data given for date. I've gotten the year and month, but still need the day.")
         , test "only year, month and day given" <|
             \_ ->
-                let
-                    posix =
-                        Time.millisToPosix 1527724800000
-                in
-                Expect.equal
-                    (Ok posix)
-                    (ListDate.listToDate utc [ 2018, 5, 31 ])
+                Time.millisToPosix 1527724800000
+                    |> Ok
+                    |> Expect.equal (ListDate.listToDate utc [ 2018, 5, 31 ])
         , test "only year, month, day, and hour given" <|
             \_ ->
-                let
-                    posix =
-                        Time.millisToPosix 1527778800000
-                in
-                Expect.equal
-                    (Ok posix)
-                    (ListDate.listToDate utc [ 2018, 5, 31, 15 ])
+                Time.millisToPosix 1527778800000
+                    |> Ok
+                    |> Expect.equal
+                        (ListDate.listToDate utc [ 2018, 5, 31, 15 ])
         , test "only year, month, day, hour, and minute given" <|
             \_ ->
-                let
-                    posix =
-                        Time.millisToPosix 1527779760000
-                in
-                Expect.equal
-                    (Ok posix)
-                    (ListDate.listToDate utc [ 2018, 5, 31, 15, 16 ])
+                Time.millisToPosix 1527779760000
+                    |> Ok
+                    |> Expect.equal
+                        (ListDate.listToDate utc [ 2018, 5, 31, 15, 16 ])
         , test "only year, month, day, hour, minute, and seconds given" <|
             \_ ->
-                let
-                    posix =
-                        Time.millisToPosix 1527779780000
-                in
-                Expect.equal
-                    (Ok posix)
-                    (ListDate.listToDate utc [ 2018, 5, 31, 15, 16, 20 ])
-        , test "only year, month, day, hour, minute, seconds, and miliseconds given" <|
+                Time.millisToPosix 1527779780000
+                    |> Ok
+                    |> Expect.equal
+                        (ListDate.listToDate utc [ 2018, 5, 31, 15, 16, 20 ])
+        , test "only year, month, day, hour, minute, seconds, and milliseconds given" <|
             \_ ->
-                let
-                    posix =
-                        Time.millisToPosix 1527779780987
-                in
-                Expect.equal
-                    (Ok posix)
-                    (ListDate.listToDate utc [ 2018, 5, 31, 15, 16, 20, 987 ])
+                Time.millisToPosix 1527779780987
+                    |> Ok
+                    |> Expect.equal
+                        (ListDate.listToDate utc [ 2018, 5, 31, 15, 16, 20, 987 ])
         ]
 
 
@@ -80,16 +64,10 @@ dateToListTest =
     describe "Convert a Date to a List Int"
         [ test "with a valid date" <|
             \_ ->
-                let
-                    posix =
-                        Time.millisToPosix 1527779780987
-
-                    expected =
+                Time.millisToPosix 1527779780987
+                    |> ListDate.dateToList utc
+                    |> Expect.equal
                         [ 2018, 5, 31, 15, 16, 20, 987 ]
-                in
-                Expect.equal
-                    expected
-                    (ListDate.dateToList utc posix)
         ]
 
 
@@ -125,8 +103,7 @@ decoderTest =
                         [ 2018, 5, 31, 15, 16, 20, 987 ]
                             |> JE.list JE.int
                 in
-                Expect.equal
-                    (Ok posix)
+                Expect.equal (Ok posix)
                     (JD.decodeValue (ListDate.decoder utc) json)
         , test "with an empty list" <|
             \_ ->
@@ -134,25 +111,31 @@ decoderTest =
                     json =
                         JE.list JE.int []
                 in
-                Expect.true
-                    "should be an Err"
-                    (RE.isErr <| JD.decodeValue (ListDate.decoder utc) json)
+                json
+                    |> JD.decodeValue (ListDate.decoder utc)
+                    |> RE.isErr
+                    |> Expect.equal True
+                    |> Expect.onFail "expected to be an Err"
         , test "with an only year" <|
             \_ ->
                 let
                     json =
                         JE.list JE.int [ 2018 ]
                 in
-                Expect.true
-                    "should be an Err"
-                    (RE.isErr <| JD.decodeValue (ListDate.decoder utc) json)
+                json
+                    |> JD.decodeValue (ListDate.decoder utc)
+                    |> RE.isErr
+                    |> Expect.equal True
+                    |> Expect.onFail "expected to be an Err"
         , test "with an only year and month" <|
             \_ ->
                 let
                     json =
                         JE.list JE.int [ 2018, 2 ]
                 in
-                Expect.true
-                    "should be an Err"
-                    (RE.isErr <| JD.decodeValue (ListDate.decoder utc) json)
+                json
+                    |> JD.decodeValue (ListDate.decoder utc)
+                    |> RE.isErr
+                    |> Expect.equal True
+                    |> Expect.onFail "expected to be an Err"
         ]
