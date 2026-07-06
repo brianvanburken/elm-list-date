@@ -1,2 +1,10 @@
 [tools]
 elm = "0.19.1"
+node = "26.4.0"
+"github:mpizenberg/elm-test-rs" = "3.0.2"
+
+[tasks.test]
+run = "elm-test-rs"
+
+[tasks.build]
+run = "elm make src/ListDate.elm --output /dev/null"
