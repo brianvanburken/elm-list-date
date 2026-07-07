@@ -27,3 +27,4 @@ jobs:
       - parallel:
         - run: mise run build
         - run: mise run test
+        - run: mise run format
