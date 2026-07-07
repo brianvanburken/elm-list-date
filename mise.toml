@@ -1,7 +1,7 @@
 [tools]
 elm = "0.19.2"
 node = "26.4.0"
-"github:mpizenberg/elm-test-rs" = "3.0.2"
+"github:mpizenberg/elm-test-rs" = "3.1.0"
 
 [tasks.test]
 run = "elm-test-rs"
