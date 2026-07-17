@@ -1,7 +1,7 @@
 [tools]
 elm = "0.19.2"
 node = "26.5.0"
-"github:mpizenberg/elm-test-rs" = "3.1.0"
+"github:mpizenberg/elm-test-rs" = "3.2.0"
 "github:avh4/elm-format" = "0.8.8"
 
 [tasks.test]

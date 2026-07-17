@@ -44,43 +44,43 @@ url = "https://github.com/avh4/elm-format/releases/download/0.8.8/elm-format-0.8
 url_api = "https://api.github.com/repos/avh4/elm-format/releases/assets/265282248"
 
 [[tools."github:mpizenberg/elm-test-rs"]]
-version = "3.1.0"
+version = "3.2.0"
 backend = "github:mpizenberg/elm-test-rs"
 
 [tools."github:mpizenberg/elm-test-rs"."platforms.linux-arm64"]
-checksum = "sha256:364e3528222acbe916a679d079f583b1b4c70be9132297bb541572ce275ff95d"
-url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.1.0/elm-test-rs_linux.tar.gz"
-url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/468441758"
+checksum = "sha256:60257038d90b43fbc322dd89aa0afeb60724140809661b9f080e7dd5f06523d3"
+url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.2.0/elm-test-rs_linux.tar.gz"
+url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/475943436"
 
 [tools."github:mpizenberg/elm-test-rs"."platforms.linux-arm64-musl"]
-checksum = "sha256:364e3528222acbe916a679d079f583b1b4c70be9132297bb541572ce275ff95d"
-url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.1.0/elm-test-rs_linux.tar.gz"
-url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/468441758"
+checksum = "sha256:60257038d90b43fbc322dd89aa0afeb60724140809661b9f080e7dd5f06523d3"
+url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.2.0/elm-test-rs_linux.tar.gz"
+url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/475943436"
 
 [tools."github:mpizenberg/elm-test-rs"."platforms.linux-x64"]
-checksum = "sha256:364e3528222acbe916a679d079f583b1b4c70be9132297bb541572ce275ff95d"
-url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.1.0/elm-test-rs_linux.tar.gz"
-url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/468441758"
+checksum = "sha256:60257038d90b43fbc322dd89aa0afeb60724140809661b9f080e7dd5f06523d3"
+url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.2.0/elm-test-rs_linux.tar.gz"
+url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/475943436"
 
 [tools."github:mpizenberg/elm-test-rs"."platforms.linux-x64-musl"]
-checksum = "sha256:364e3528222acbe916a679d079f583b1b4c70be9132297bb541572ce275ff95d"
-url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.1.0/elm-test-rs_linux.tar.gz"
-url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/468441758"
+checksum = "sha256:60257038d90b43fbc322dd89aa0afeb60724140809661b9f080e7dd5f06523d3"
+url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.2.0/elm-test-rs_linux.tar.gz"
+url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/475943436"
 
 [tools."github:mpizenberg/elm-test-rs"."platforms.macos-arm64"]
-checksum = "sha256:c6eea3fd24f341597bfd8669258e4ef5a0c02ad70a167182caec21be644e123b"
-url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.1.0/elm-test-rs_macos.tar.gz"
-url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/468441760"
+checksum = "sha256:1a8c2af9567d54ef71d1b8eb93a2aacd5f405d2b130b8cb4464216bed13fcea0"
+url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.2.0/elm-test-rs_macos.tar.gz"
+url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/475943433"
 
 [tools."github:mpizenberg/elm-test-rs"."platforms.macos-x64"]
-checksum = "sha256:c6eea3fd24f341597bfd8669258e4ef5a0c02ad70a167182caec21be644e123b"
-url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.1.0/elm-test-rs_macos.tar.gz"
-url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/468441760"
+checksum = "sha256:1a8c2af9567d54ef71d1b8eb93a2aacd5f405d2b130b8cb4464216bed13fcea0"
+url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.2.0/elm-test-rs_macos.tar.gz"
+url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/475943433"
 
 [tools."github:mpizenberg/elm-test-rs"."platforms.windows-x64"]
-checksum = "sha256:66554f09d9e7ba74519fcc9151ca4ac15ae67bafb9123786dbc9e554766aa437"
-url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.1.0/elm-test-rs_windows.zip"
-url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/468441755"
+checksum = "sha256:66f8736ced77e96340f5042d7a02ab0682a94c4fa498334332be9642edb99a2e"
+url = "https://github.com/mpizenberg/elm-test-rs/releases/download/v3.2.0/elm-test-rs_windows.zip"
+url_api = "https://api.github.com/repos/mpizenberg/elm-test-rs/releases/assets/475943430"
 
 [[tools.node]]
 version = "26.5.0"
