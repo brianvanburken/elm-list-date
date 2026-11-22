@@ -12,3 +12,9 @@ updates:
     interval: daily
     time: "04:00"
   open-pull-requests-limit: 10
+- package-ecosystem: nix
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "04:00"
+  open-pull-requests-limit: 10

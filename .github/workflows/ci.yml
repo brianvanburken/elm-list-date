@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+      - uses: DeterminateSystems/determinate-nix-action@4b040423529d49b1a19ba918742e0aa9aa95031a # v3.24.3
+      - uses: DeterminateSystems/magic-nix-cache-action@84c0677f58dcedf3b91f8223ce36a9ea5b3c84b7 # v15
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         id: elm_cache
         with:
@@ -22,9 +23,9 @@ jobs:
         if: steps.elm_cache.outputs.cache-hit != 'true'
         run: |
           printf 'module A exposing (a)\na = 0\n' > Temp.elm
-          elm make Temp.elm --output=/dev/null
+          nix develop --command elm make Temp.elm --output=/dev/null
           rm Temp.elm
       - parallel:
-        - run: mise run build
-        - run: mise run test
-        - run: mise run format
+        - run: nix develop --command elm make src/ListDate.elm --output /dev/null
+        - run: nix develop --command elm-test-rs
+        - run: nix develop --command elm-format --validate src/ tests/
